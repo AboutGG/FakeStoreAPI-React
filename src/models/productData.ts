@@ -5,4 +5,5 @@ export type ProductData = {
     description: string;
     category:string;
     image: string;
+    qty: number;
 }

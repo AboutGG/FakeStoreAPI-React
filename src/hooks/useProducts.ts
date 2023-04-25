@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { ProductData } from "../models/productData";
 const url = "https://fakestoreapi.com/products";
 
-
-export const useProducts = (page = 1) => {
+export const useProducts = () => {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
 
@@ -13,12 +12,13 @@ export const useProducts = (page = 1) => {
       setLoading(true);
       setTimeout(async () => {
         const { data } = await axios.get(`${url}`);
-        setProducts(data);
+        const newData = data.map((item: ProductData) => ({ ...item, qty: 0 }));
+        setProducts(newData);
         setLoading(false);
       }, 2000);
     };
     load();
-  }, [page]);
+  }, []);
   return [products, setProducts, isLoading] as [
     ProductData[],
     Function,
